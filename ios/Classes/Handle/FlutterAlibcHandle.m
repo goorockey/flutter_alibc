@@ -202,6 +202,33 @@ FlutterMethodChannel *_flutterAlibcChannel = nil;
 - (void)loginOut{
     [[ALBBSDK sharedInstance] logout];
 }
+
+#pragma mark --是否登录淘宝
+- (void)isLogin:(FlutterMethodCall *)call result:(FlutterResult)result{
+    result(@([[ALBBSession sharedInstance] isLogin]));
+}
+
+#pragma mark --获取用户信息
+- (void)getUser:(FlutterMethodCall *)call result:(FlutterResult)result{
+    if(![[ALBBSession sharedInstance] isLogin]){
+        result(nil);
+        return;
+    }
+
+    ALBBSession *session=[ALBBSession sharedInstance];
+    ALBBUser *userInfo = [session getUser];
+    result(@{
+            @"nick":userInfo.nick,
+            @"avatarUrl":userInfo.avatarUrl,
+            @"openId":userInfo.openId,
+            @"openSid":userInfo.openSid,
+            @"topAccessToken":userInfo.topAccessToken,
+            @"topAuthCode":userInfo.topAuthCode,
+        }
+    );
+}
+
+
 #pragma mark --通过url打开,包括h5，唤起手淘等
 - (void)openByUrl:(FlutterMethodCall *)call result:(FlutterResult)result{
 //    需要获取的数据
@@ -404,10 +431,10 @@ FlutterMethodChannel *_flutterAlibcChannel = nil;
 #pragma mark --设置淘客参数
 - (AlibcTradeTaokeParams *)getTaokeParams:(FlutterMethodCall *)call{
     AlibcTradeTaokeParams *taoke = [[AlibcTradeTaokeParams alloc] init];
-    if (call.arguments[@"taoKeParams"] == nil || [call.arguments[@"taoKeParams"] isKindOfClass:[NSNull class]]) {
+    if (call.arguments[@"taokeParams"] == nil || [call.arguments[@"taokeParams"] isKindOfClass:[NSNull class]]) {
         return nil;
     }
-    NSDictionary *taoKeParams = call.arguments[@"taoKeParams"];
+    NSDictionary *taoKeParams = call.arguments[@"taokeParams"];
     taoke.adzoneId = (taoKeParams[@"adzoneId"] == (id) [NSNull null]) ? nil : taoKeParams[@"adzoneId"];
     taoke.pid = (taoKeParams[@"pid"] == (id) [NSNull null]) ? nil : taoKeParams[@"pid"];
     //有adzoneId则pid失效

@@ -47,6 +47,22 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param result <#result description#>
 - (void)taoKeLogin:(FlutterMethodCall *)call result:(FlutterResult)result;
 /**
+ 是否已登录淘宝
+
+ @param call <#call description#>
+ @param result <#result description#>
+ */
+- (void)isLogin:(FlutterMethodCall *)call result:(FlutterResult)result;
+
+/**
+ 获取用户信息
+
+ @param call <#call description#>
+ @param result <#result description#>
+ */
+- (void)getUser:(FlutterMethodCall *)call result:(FlutterResult)result;
+
+/**
  通过url打开,包括h5，唤起手淘等
 
  @param call <#call description#>

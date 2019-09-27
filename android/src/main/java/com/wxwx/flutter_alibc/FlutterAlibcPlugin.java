@@ -31,6 +31,10 @@ public class FlutterAlibcPlugin implements MethodCallHandler {
       handle.taoKeLogin(call, result);
     } else if (call.method.equals("loginOut")){
       handle.loginOut(result);
+    } else if (call.method.equals("isLogin")){
+      handle.isLogin(result);
+    } else if (call.method.equals("getUser")){
+      handle.getUser(result);
     }else if (call.method.equals("openByUrl")){
       handle.openByUrl(call, result);
     }else if (call.method.equals("openShop")){

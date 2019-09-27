@@ -54,7 +54,7 @@ dependencies{
     implementation 'com.taobao.android:mtopsdk_allinone_open:3.1.2.5@jar'
 
     //appLink
-    implementation 'com.alibaba.sdk.android:alibc_link_partner:4.1.10@aar'
+    implementation 'com.alibaba.sdk.android:alibc_link_partner:4.1.11@aar'
     
     //core
     implementation 'com.alibaba.sdk.android:AlibcTradeCommon:4.0.0.2@aar'

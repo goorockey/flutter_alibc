@@ -40,6 +40,10 @@
         [_handler taoKeLogin:call result:result];
     }else if([@"loginOut" isEqualToString:call.method]){
         [_handler loginOut];
+    }else if([@"isLogin" isEqualToString:call.method]){
+        [_handler isLogin:call result:result];
+    }else if([@"getUser" isEqualToString:call.method]){
+        [_handler getUser:call result:result];
     }else if([@"openByUrl" isEqualToString:call.method]){
         [_handler openByUrl:call result:result];
     }else if([@"openItemDetail" isEqualToString:call.method]){

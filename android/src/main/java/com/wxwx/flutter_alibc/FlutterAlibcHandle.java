@@ -129,6 +129,29 @@ public class FlutterAlibcHandle{
         });
     }
 
+    public void isLogin(Result result) {
+        AlibcLogin alibcLogin = AlibcLogin.getInstance();
+        result.success(alibcLogin.isLogin());
+    }
+
+    public void getUser(Result result) {
+        AlibcLogin alibcLogin = AlibcLogin.getInstance();
+        if (!alibcLogin.isLogin()) {
+            result.success(null);
+            return;
+        }
+
+        Map<String, Object> userInfo = new HashMap<>();
+        Session session = AlibcLogin.getInstance().getSession();
+        userInfo.put("nick", session.nick);
+        userInfo.put("avatarUrl", session.avatarUrl);
+        userInfo.put("openId", session.openId);
+        userInfo.put("openSid", session.openSid);
+        userInfo.put("topAccessToken", session.topAccessToken);
+        userInfo.put("topAuthCode", session.topAuthCode);
+        result.success(userInfo);
+    }
+
     /**
      * 淘宝授权登陆  获取access_token
      *  官方说明文档 {https://open.taobao.com/doc.htm?docId=118&docType=1}

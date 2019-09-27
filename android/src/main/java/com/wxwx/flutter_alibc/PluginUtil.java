@@ -6,6 +6,7 @@ import com.alibaba.baichuan.trade.biz.applink.adapter.AlibcFailModeType;
 import com.alibaba.baichuan.trade.biz.core.taoke.AlibcTaokeParams;
 
 import java.util.Map;
+import java.util.HashMap;
 
 /**
  * @Author karedem
@@ -41,13 +42,31 @@ public class PluginUtil {
     }
 
     public static AlibcTaokeParams getTaokeParams(Map<String, Object> taokePar){
-        String pid = (String) taokePar.get("pid");
         AlibcTaokeParams taokeParams = new AlibcTaokeParams("", "", "");
+        String pid = (String) taokePar.get("pid");
         if (pid != null){
             taokeParams.setPid(pid);
         }
+        String adzoneId = (String) taokePar.get("adzoneId");
+        if (adzoneId != null) {
+            taokeParams.setAdzoneid(adzoneId);
+        }
+
+        String unionId = (String) taokePar.get("unionId");
+        if (unionId != null) {
+            taokeParams.setUnionId(unionId);
+        }
+
+        String subPid = (String) taokePar.get("subPid");
+        if (subPid != null) {
+            taokeParams.setSubPid(subPid);
+        }
+
         Object extParams = taokePar.get("extParams");
-        //TODO 其他参数待添加
+        if (extParams != null) {
+            taokeParams.setExtraParams((HashMap<String, String>)extParams);
+        }
+
         return taokeParams;
     }
 

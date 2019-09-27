@@ -75,6 +75,25 @@ class FlutterAlibc {
     _channel.invokeMethod("loginOut");
   }
 
+  static Future<bool> isLogin() async {
+    return await _channel.invokeMethod("isLogin");
+  }
+
+  static Future<UserModel> getUser() async {
+    final Map result = await _channel.invokeMethod("getUser");
+    if (result == null) {
+      return null;
+    }
+    return UserModel(
+            result["nick"],
+            result["avatarUrl"],
+            result["openId"],
+            result["openSid"],
+            result["topAccessToken"],
+            result["topAuthCode"],
+          );
+  }
+
   ///
   /// @description: 渠道授权，获取access_token
   /// @param {type}
@@ -172,7 +191,7 @@ class FlutterAlibc {
       "nativeFailMode": nativeFailMode.index,
       "schemeType": schemeType.index,
       "taokeParams": taoKe,
-      "trackParam": trackParam,
+      "trackParam": trackParam ?? {},
       "backUrl": backUrl
     });
     TradeResult tradeResult = AlibcTools.getTradeResult(result);
@@ -209,7 +228,7 @@ class FlutterAlibc {
       "nativeFailMode": nativeFailMode.index,
       "schemeType": schemeType.index,
       "taokeParams": taoKe,
-      "trackParam": trackParam,
+      "trackParam": trackParam ?? {},
       "backUrl": backUrl
     });
     TradeResult tradeResult = AlibcTools.getTradeResult(result);
@@ -243,7 +262,7 @@ class FlutterAlibc {
       "nativeFailMode": nativeFailMode.index,
       "schemeType": schemeType.index,
       "taokeParams": taoKe,
-      "trackParam": trackParam,
+      "trackParam": trackParam ?? {},
       "backUrl": backUrl
     });
     TradeResult tradeResult = AlibcTools.getTradeResult(result);
