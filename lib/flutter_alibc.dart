@@ -108,6 +108,7 @@ class FlutterAlibc {
     AlibcSchemeType schemeType = AlibcSchemeType.AlibcSchemeTaoBao,
     TaokeParams taokeParams,
     String backUrl,
+    String degradeUrl,
   }) async {
     Map taoKe = AlibcTools.getTaokeMap(taokeParams);
     Map result = await _channel.invokeMethod("taoKeLogin", {
@@ -117,6 +118,7 @@ class FlutterAlibc {
       "nativeFailMode": nativeFailMode.index,
       "schemeType": schemeType.index,
       "taokeParams": taoKe,
+      "degradeUrl": degradeUrl,
       "backUrl": backUrl
     });
 
@@ -143,6 +145,7 @@ class FlutterAlibc {
         AlibcNativeFailMode.AlibcNativeFailModeNone,
     AlibcSchemeType schemeType = AlibcSchemeType.AlibcSchemeTmall,
     TaokeParams taokeParams,
+    String degradeUrl,
     String backUrl,
   }) async {
     Map taoKe = AlibcTools.getTaokeMap(taokeParams);
@@ -153,6 +156,7 @@ class FlutterAlibc {
       "nativeFailMode": nativeFailMode.index,
       "schemeType": schemeType.index,
       "taokeParams": taoKe,
+      "degradeUrl": degradeUrl,
       "backUrl": backUrl
     });
 
@@ -180,6 +184,7 @@ class FlutterAlibc {
     TaokeParams taokeParams,
     // 额外需要追踪的业务数据
     Map trackParam,
+    String degradeUrl,
     String backUrl,
   }) async {
     Map taoKe = AlibcTools.getTaokeMap(taokeParams);
@@ -192,6 +197,7 @@ class FlutterAlibc {
       "schemeType": schemeType.index,
       "taokeParams": taoKe,
       "trackParam": trackParam ?? {},
+      "degradeUrl": degradeUrl,
       "backUrl": backUrl
     });
     TradeResult tradeResult = AlibcTools.getTradeResult(result);
@@ -216,6 +222,7 @@ class FlutterAlibc {
     TaokeParams taokeParams,
     // 额外需要追踪的业务数据
     Map trackParam,
+    String degradeUrl,
     String backUrl,
   }) async {
     Map taoKe = AlibcTools.getTaokeMap(taokeParams);
@@ -229,6 +236,7 @@ class FlutterAlibc {
       "schemeType": schemeType.index,
       "taokeParams": taoKe,
       "trackParam": trackParam ?? {},
+      "degradeUrl": degradeUrl,
       "backUrl": backUrl
     });
     TradeResult tradeResult = AlibcTools.getTradeResult(result);
@@ -251,6 +259,7 @@ class FlutterAlibc {
     TaokeParams taokeParams,
     // 额外需要追踪的业务数据
     Map trackParam,
+    String degradeUrl,
     String backUrl,
   }) async {
     Map taoKe = AlibcTools.getTaokeMap(taokeParams);
@@ -263,6 +272,7 @@ class FlutterAlibc {
       "schemeType": schemeType.index,
       "taokeParams": taoKe,
       "trackParam": trackParam ?? {},
+      "degradeUrl": degradeUrl,
       "backUrl": backUrl
     });
     TradeResult tradeResult = AlibcTools.getTradeResult(result);
@@ -286,6 +296,7 @@ class FlutterAlibc {
     // 额外需要追踪的业务数据
     Map trackParam,
     String backUrl,
+    String degradeUrl,
   }) async {
     Map taoKe = AlibcTools.getTaokeMap(taokeParams);
 
@@ -297,6 +308,7 @@ class FlutterAlibc {
       "schemeType": schemeType.index,
       "taokeParams": taoKe,
       "trackParam": trackParam ?? {},
+      "degradeUrl": degradeUrl,
       "backUrl": backUrl
     });
     TradeResult tradeResult = AlibcTools.getTradeResult(result);

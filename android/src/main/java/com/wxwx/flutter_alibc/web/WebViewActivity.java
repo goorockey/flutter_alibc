@@ -74,6 +74,7 @@ public class WebViewActivity extends Activity {
         AlibcShowParams showParams = new AlibcShowParams();
         AlibcTaokeParams taokeParams = new AlibcTaokeParams("", "", "");
         showParams.setBackUrl(String.valueOf(argument.get(key_BackUrl)));
+        showParams.setDegradeUrl(String.valueOf(argument.get("degradeUrl")));
 
         if (argument.get(key_OpenType) != null){
             showParams.setOpenType(getOpenType(String.valueOf(argument.get(key_OpenType))));

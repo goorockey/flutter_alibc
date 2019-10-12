@@ -124,6 +124,7 @@ FlutterMethodChannel *_flutterAlibcChannel = nil;
     NSDictionary *trackParam = call.arguments[@"trackParam"];
     NSString *backUrl = [FlutterAlibcTools changeType:call.arguments[@"backUrl"]];
     //    NSString *backUrl = [FlutterAlibcTools nullToNil:call.arguments[@"backUrl"]];
+    NSString *degradeUrl = [FlutterAlibcTools changeType:call.arguments[@"degradeUrl"]];
     
     UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
     
@@ -135,6 +136,7 @@ FlutterMethodChannel *_flutterAlibcChannel = nil;
     showParam.nativeFailMode=nativeFailMode;
     showParam.linkKey=linkKey;
     showParam.backUrl= backUrl;
+    showParam.degradeUrl = degradeUrl;
     
     ALiTradeWebViewController* webviewVC = [[ALiTradeWebViewController alloc] init];
     
@@ -345,6 +347,7 @@ FlutterMethodChannel *_flutterAlibcChannel = nil;
     NSDictionary *trackParam = [FlutterAlibcTools nullToNil:call.arguments[@"trackParam"]];
     
     NSString *backUrl = [FlutterAlibcTools changeType:call.arguments[@"backUrl"]];
+    NSString *degradeUrl = [FlutterAlibcTools changeType:call.arguments[@"degradeUrl"]];
 //    判断
     
     UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
@@ -355,6 +358,7 @@ FlutterMethodChannel *_flutterAlibcChannel = nil;
     showParam.isNeedCustomNativeFailMode = isNeedCustomNativeFailMode;
     showParam.linkKey = linkKey;
     showParam.backUrl = backUrl;
+    showParam.degradeUrl = degradeUrl;
     
     
 //    if (isBindWebview) {

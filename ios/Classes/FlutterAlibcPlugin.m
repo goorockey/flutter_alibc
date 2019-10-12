@@ -74,8 +74,6 @@
 
 //IOS9.0 系统新的处理openURL 的API
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
-    
-    
     if (@available(iOS 9.0, *)) {
         __unused BOOL isHandledByALBBSDK=[[AlibcTradeSDK sharedInstance] application:application openURL:url options:options];
         return isHandledByALBBSDK;
@@ -84,7 +82,5 @@
     }//处理其他app跳转到自己的app，如果百川处理过会返回YES
     
     return NO;
-    
-    
 }
 @end

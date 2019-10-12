@@ -193,6 +193,7 @@ public class FlutterAlibcHandle{
         AlibcTaokeParams taokeParams = new AlibcTaokeParams("","","");
 
         showParams.setBackUrl(call.argument(key_BackUrl));
+        showParams.setDegradeUrl(call.argument("degradeUrl"));
 
         if (call.argument(key_OpenType) != null){
             System.out.println("openType" + call.argument(key_OpenType));
