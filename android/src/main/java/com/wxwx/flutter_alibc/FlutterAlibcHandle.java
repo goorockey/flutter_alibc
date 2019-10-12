@@ -15,6 +15,7 @@ import com.alibaba.baichuan.android.trade.model.OpenType;
 import com.alibaba.baichuan.android.trade.page.AlibcBasePage;
 import com.alibaba.baichuan.android.trade.page.AlibcDetailPage;
 import com.alibaba.baichuan.android.trade.page.AlibcMyCartsPage;
+import com.alibaba.baichuan.android.trade.page.AlibcMyOrdersPage;
 import com.alibaba.baichuan.android.trade.page.AlibcShopPage;
 import com.alibaba.baichuan.trade.biz.applink.adapter.AlibcFailModeType;
 import com.alibaba.baichuan.trade.biz.context.AlibcTradeResult;
@@ -252,6 +253,15 @@ public class FlutterAlibcHandle{
     public void openCart(MethodCall call, Result result){
         AlibcBasePage page = new AlibcMyCartsPage();
         openByBizCode(page, "cart",call, result);
+    }
+
+    /**
+     * 打开订单页
+     * @param result
+     */
+    public void openOrder(MethodCall call, Result result){
+        AlibcBasePage page = new AlibcMyOrdersPage(0, true);
+        openByBizCode(page, "order", call, result);
     }
 
     /**

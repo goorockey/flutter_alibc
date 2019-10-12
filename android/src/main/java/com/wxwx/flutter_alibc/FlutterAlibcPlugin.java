@@ -41,6 +41,8 @@ public class FlutterAlibcPlugin implements MethodCallHandler {
       handle.openShop(call, result);
     }else if (call.method.equals("openCart")){
       handle.openCart(call, result);
+    }else if (call.method.equals("openOrder")){
+      handle.openOrder(call, result);
     }else if (call.method.equals("syncForTaoke")){
       handle.syncForTaoke(call);
     }else if (call.method.equals("useAlipayNative")){

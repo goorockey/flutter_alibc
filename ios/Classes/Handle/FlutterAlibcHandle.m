@@ -309,6 +309,11 @@ FlutterMethodChannel *_flutterAlibcChannel = nil;
     id<AlibcTradePage> page = [AlibcTradePageFactory myCartsPage];
     [self OpenPageByNewWay:page BizCode:@"cart" Call:call callback:result];
 }
+#pragma mark --打开订单
+- (void)openOrder:(FlutterMethodCall *)call result:(FlutterResult)result{
+    id<AlibcTradePage> page = [AlibcTradePageFactory myOrdersPage:0 isAllOrder:YES];
+    [self OpenPageByNewWay:page BizCode:@"order" Call:call callback:result];
+}
 
 #pragma mark --淘客打点
 - (void)syncForTaoke:(FlutterMethodCall *)call result:(FlutterResult)result{

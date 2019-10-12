@@ -96,6 +96,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)openCart:(FlutterMethodCall *)call result:(FlutterResult)result;
 
 /**
+ 打开订单
+
+ @param call <#call description#>
+ @param result <#result description#>
+ */
+- (void)openOrder:(FlutterMethodCall *)call result:(FlutterResult)result;
+
+/**
  是否淘宝打点
 
  @param call <#call description#>

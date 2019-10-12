@@ -269,6 +269,40 @@ class FlutterAlibc {
     return tradeResult;
   }
 
+  ///
+   /// @description: 打开订单页
+   /// @param {type} 
+   /// @return: 
+   ///
+  static Future<TradeResult> openOrder({
+    // iOS独占
+    // bool isNeedPush = false,
+    AlibcOpenType openType = AlibcOpenType.AlibcOpenTypeAuto,
+    bool isNeedCustomNativeFailMode = false,
+    AlibcNativeFailMode nativeFailMode =
+        AlibcNativeFailMode.AlibcNativeFailModeNone,
+    AlibcSchemeType schemeType = AlibcSchemeType.AlibcSchemeTmall,
+    TaokeParams taokeParams,
+    // 额外需要追踪的业务数据
+    Map trackParam,
+    String backUrl,
+  }) async {
+    Map taoKe = AlibcTools.getTaokeMap(taokeParams);
+
+    Map result = await _channel.invokeMethod("openOrder", {
+      // "isNeedPush": isNeedPush,
+      "openType": openType.index,
+      "isNeedCustomNativeFailMode": isNeedCustomNativeFailMode,
+      "nativeFailMode": nativeFailMode.index,
+      "schemeType": schemeType.index,
+      "taokeParams": taoKe,
+      "trackParam": trackParam ?? {},
+      "backUrl": backUrl
+    });
+    TradeResult tradeResult = AlibcTools.getTradeResult(result);
+    return tradeResult;
+  }
+
   // 是否需要设置打点
   static syncForTaoke(bool isSync) {
     _channel.invokeMethod("syncForTaoke", {"isSync": isSync});
