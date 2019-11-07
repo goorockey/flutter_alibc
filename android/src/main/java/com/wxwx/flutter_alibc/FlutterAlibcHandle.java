@@ -65,11 +65,19 @@ public class FlutterAlibcHandle{
         AlibcTradeSDK.asyncInit(register.activity().getApplication(), new AlibcTradeInitCallback() {
             @Override
             public void onSuccess() {
-                result.success(PluginResponse.success(null).toMap());
+                try {
+                    result.success(PluginResponse.success(null).toMap());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             @Override
             public void onFailure(int code, String msg) {
-                result.success(new PluginResponse(Integer.toString(code), msg, null).toMap());
+                try {
+                    result.success(new PluginResponse(Integer.toString(code), msg, null).toMap());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -95,20 +103,28 @@ public class FlutterAlibcHandle{
         alibcLogin.showLogin(new AlibcLoginCallback() {
             @Override
             public void onSuccess(int loginResult, String openId, String userNick) {
-                Map<String, Object> userInfo = new HashMap<>();
-                Session session = AlibcLogin.getInstance().getSession();
-                userInfo.put("nick", session.nick);
-                userInfo.put("avatarUrl", session.avatarUrl);
-                userInfo.put("openId", session.openId);
-                userInfo.put("openSid", session.openSid);
-                userInfo.put("topAccessToken", session.topAccessToken);
-                userInfo.put("topAuthCode", session.topAuthCode);
-                result.success(PluginResponse.success(userInfo).toMap());
+                try {
+                    Map<String, Object> userInfo = new HashMap<>();
+                    Session session = AlibcLogin.getInstance().getSession();
+                    userInfo.put("nick", session.nick);
+                    userInfo.put("avatarUrl", session.avatarUrl);
+                    userInfo.put("openId", session.openId);
+                    userInfo.put("openSid", session.openSid);
+                    userInfo.put("topAccessToken", session.topAccessToken);
+                    userInfo.put("topAuthCode", session.topAuthCode);
+                    result.success(PluginResponse.success(userInfo).toMap());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             @Override
             public void onFailure(int code, String msg) {
-                // code：错误码  msg： 错误信息
-                result.success(new PluginResponse(Integer.toString(code), msg, null).toMap());
+                try {
+                    // code：错误码  msg： 错误信息
+                    result.success(new PluginResponse(Integer.toString(code), msg, null).toMap());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -220,19 +236,27 @@ public class FlutterAlibcHandle{
                 taokeParams, trackParams, new AlibcTradeCallback() {
                     @Override
                     public void onTradeSuccess(AlibcTradeResult tradeResult) {
-                        Map<String, Object> results = new HashMap<>();
-                        if (AlibcResultType.TYPECART == tradeResult.resultType){
-                            results.put("type", 1);
-                        }else if (AlibcResultType.TYPEPAY == tradeResult.resultType){
-                            results.put("type", 0);
-                            results.put("payFailedOrders", tradeResult.payResult.payFailedOrders);
-                            results.put("paySuccessOrders", tradeResult.payResult.paySuccessOrders);
+                        try {
+                            Map<String, Object> results = new HashMap<>();
+                            if (AlibcResultType.TYPECART == tradeResult.resultType){
+                                results.put("type", 1);
+                            }else if (AlibcResultType.TYPEPAY == tradeResult.resultType){
+                                results.put("type", 0);
+                                results.put("payFailedOrders", tradeResult.payResult.payFailedOrders);
+                                results.put("paySuccessOrders", tradeResult.payResult.paySuccessOrders);
+                            }
+                            result.success(PluginResponse.success(results).toMap());
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                        result.success(PluginResponse.success(results).toMap());
                     }
                     @Override
                     public void onFailure(int code, String msg) {
-                        result.success(new PluginResponse(Integer.toString(code), msg, null).toMap());
+                        try {
+                            result.success(new PluginResponse(Integer.toString(code), msg, null).toMap());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }
@@ -303,20 +327,28 @@ public class FlutterAlibcHandle{
                 trackParams, new AlibcTradeCallback() {
                     @Override
                     public void onTradeSuccess(AlibcTradeResult tradeResult) {
-                        Map<String, Object> results = new HashMap<>();
-                        if (AlibcResultType.TYPECART == tradeResult.resultType){
-                            results.put("type", 1);
-                        }else if (AlibcResultType.TYPEPAY == tradeResult.resultType){
-                            results.put("type", 0);
-                            results.put("payFailedOrders", tradeResult.payResult.payFailedOrders);
-                            results.put("paySuccessOrders", tradeResult.payResult.paySuccessOrders);
+                        try {
+                            Map<String, Object> results = new HashMap<>();
+                            if (AlibcResultType.TYPECART == tradeResult.resultType){
+                                results.put("type", 1);
+                            }else if (AlibcResultType.TYPEPAY == tradeResult.resultType){
+                                results.put("type", 0);
+                                results.put("payFailedOrders", tradeResult.payResult.payFailedOrders);
+                                results.put("paySuccessOrders", tradeResult.payResult.paySuccessOrders);
+                            }
+                            result.success(PluginResponse.success(results).toMap());
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                        result.success(PluginResponse.success(results).toMap());
                     }
                     @Override
                     public void onFailure(int code, String msg) {
-                        // 失败回调信息
-                        result.success(new PluginResponse(Integer.toString(code), msg, null).toMap());
+                        try {
+                            // 失败回调信息
+                            result.success(new PluginResponse(Integer.toString(code), msg, null).toMap());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }
