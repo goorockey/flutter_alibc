@@ -40,11 +40,19 @@ class FlutterAlibcHandle(var methodChannel: MethodChannel?){
     fun initAlibc(result: MethodChannel.Result){
         AlibcTradeSDK.asyncInit(activity!!.application, object : AlibcTradeInitCallback {
             override fun onSuccess() {
-                result.success(PluginResponse.success(null).toMap())
+                try {
+                    result.success(PluginResponse.success(null).toMap())
+                } catch (e: Exception) {
+                    e.printStackTrace();
+                }
             }
 
             override fun onFailure(code: Int, msg: String?) {
-                result.success(PluginResponse(code.toString(), msg, null).toMap())
+                try {
+                    result.success(PluginResponse(code.toString(), msg, null).toMap())
+                } catch (e: Exception) {
+                    e.printStackTrace();
+                }
             }
         })
     }
@@ -69,21 +77,28 @@ class FlutterAlibcHandle(var methodChannel: MethodChannel?){
         }
         alibcLogin.showLogin(object : AlibcLoginCallback {
             override fun onSuccess(loginResult: Int, openId: String?, nickName: String?) {
-                val userInfo: MutableMap<String, Any> = HashMap()
-                val session = alibcLogin.session
-                userInfo["nick"] = session.nick
-                userInfo["avatarUrl"] = session.avatarUrl
-                userInfo["openId"] = session.openId
-                userInfo["openSid"] = session.openSid
-                userInfo["topAccessToken"] = session.topAccessToken
-                userInfo["topAuthCode"] = session.topAuthCode
-                methodChannel!!.invokeMethod("AlibcTaobaoLogin", PluginResponse.success(userInfo).toMap())
-
+                try {
+                    val userInfo: MutableMap<String, Any> = HashMap()
+                    val session = alibcLogin.session
+                    userInfo["nick"] = session.nick
+                    userInfo["avatarUrl"] = session.avatarUrl
+                    userInfo["openId"] = session.openId
+                    userInfo["openSid"] = session.openSid
+                    userInfo["topAccessToken"] = session.topAccessToken
+                    userInfo["topAuthCode"] = session.topAuthCode
+                    methodChannel!!.invokeMethod("AlibcTaobaoLogin", PluginResponse.success(userInfo).toMap())
+                } catch (e: Exception) {
+                    e.printStackTrace();
+                }
             }
 
             override fun onFailure(code: Int, msg: String?) {
-                // code：错误码  msg： 错误信息
-                methodChannel!!.invokeMethod("AlibcTaobaoLogin", PluginResponse(code.toString(), msg, null).toMap())
+                try {
+                    // code：错误码  msg： 错误信息
+                    methodChannel!!.invokeMethod("AlibcTaobaoLogin", PluginResponse(code.toString(), msg, null).toMap())
+                } catch (e: Exception) {
+                    e.printStackTrace();
+                }
             }
         })
     }
@@ -104,6 +119,30 @@ class FlutterAlibcHandle(var methodChannel: MethodChannel?){
             }
         })
     }
+
+    fun isLogin(result: MethodChannel.Result) {
+        val alibcLogin = AlibcLogin.getInstance();
+        result.success(alibcLogin.isLogin());
+    }
+
+    fun getUser(result: MethodChannel.Result) {
+        val alibcLogin = AlibcLogin.getInstance();
+        if (!alibcLogin.isLogin()) {
+            result.success(null);
+            return;
+        }
+
+        val session = alibcLogin.session
+        val userInfo: MutableMap<String, Any> = HashMap()
+        userInfo["nick"] = session.nick
+        userInfo["avatarUrl"] = session.avatarUrl
+        userInfo["openId"] = session.openId
+        userInfo["openSid"] = session.openSid
+        userInfo["topAccessToken"] = session.topAccessToken
+        userInfo["topAuthCode"] = session.topAuthCode
+        result.success(userInfo);
+    }
+
 
     /**
      * 淘宝授权登陆  获取access_token
@@ -171,6 +210,7 @@ class FlutterAlibcHandle(var methodChannel: MethodChannel?){
         var taokeParams: AlibcTaokeParams? = AlibcTaokeParams("", "", "")
 
         showParams.backUrl = call.argument(PluginConstants.key_BackUrl)
+        showParams.degradeUrl = call.argument(PluginConstants.key_DegradeUrl);
 
         if (call.argument<Any?>(PluginConstants.key_OpenType) != null) {
             println("openType" + call.argument<Any>(PluginConstants.key_OpenType))
@@ -197,19 +237,27 @@ class FlutterAlibcHandle(var methodChannel: MethodChannel?){
                 WebViewClient(), WebChromeClient(), showParams,
                 taokeParams, trackParams, object : AlibcTradeCallback {
             override fun onTradeSuccess(tradeResult: AlibcTradeResult) {
-                val results: MutableMap<String, Any> = HashMap()
-                if (AlibcResultType.TYPECART == tradeResult.resultType) {
-                    results["type"] = 1
-                } else if (AlibcResultType.TYPEPAY == tradeResult.resultType) {
-                    results["type"] = 0
-                    results["payFailedOrders"] = tradeResult.payResult.payFailedOrders
-                    results["paySuccessOrders"] = tradeResult.payResult.paySuccessOrders
+                try {
+                    val results: MutableMap<String, Any> = HashMap()
+                    if (AlibcResultType.TYPECART == tradeResult.resultType) {
+                        results["type"] = 1
+                    } else if (AlibcResultType.TYPEPAY == tradeResult.resultType) {
+                        results["type"] = 0
+                        results["payFailedOrders"] = tradeResult.payResult.payFailedOrders
+                        results["paySuccessOrders"] = tradeResult.payResult.paySuccessOrders
+                    }
+                    methodChannel!!.invokeMethod("AlibcOpenURL", PluginResponse.success(results).toMap())
+                } catch(e: Exception) {
+                    e.printStackTrace();
                 }
-                methodChannel!!.invokeMethod("AlibcOpenURL", PluginResponse.success(results).toMap())
             }
 
             override fun onFailure(code: Int, msg: String) {
-                methodChannel!!.invokeMethod("AlibcOpenURL", PluginResponse(code.toString(), msg, null).toMap())
+                try {
+                    methodChannel!!.invokeMethod("AlibcOpenURL", PluginResponse(code.toString(), msg, null).toMap())
+                } catch(e: Exception) {
+                    e.printStackTrace();
+                }
             }
         })
     }
@@ -266,20 +314,28 @@ class FlutterAlibcHandle(var methodChannel: MethodChannel?){
                 WebChromeClient(), type, showParams, taokeParams,
                 trackParams, object : AlibcTradeCallback {
             override fun onTradeSuccess(tradeResult: AlibcTradeResult) {
-                val results: MutableMap<String, Any> = HashMap()
-                if (AlibcResultType.TYPECART == tradeResult.resultType) {
-                    results["type"] = 1
-                } else if (AlibcResultType.TYPEPAY == tradeResult.resultType) {
-                    results["type"] = 0
-                    results["payFailedOrders"] = tradeResult.payResult.payFailedOrders
-                    results["paySuccessOrders"] = tradeResult.payResult.paySuccessOrders
+                try {
+                    val results: MutableMap<String, Any> = HashMap()
+                    if (AlibcResultType.TYPECART == tradeResult.resultType) {
+                        results["type"] = 1
+                    } else if (AlibcResultType.TYPEPAY == tradeResult.resultType) {
+                        results["type"] = 0
+                        results["payFailedOrders"] = tradeResult.payResult.payFailedOrders
+                        results["paySuccessOrders"] = tradeResult.payResult.paySuccessOrders
+                    }
+                    methodChannel!!.invokeMethod(methodName, PluginResponse.success(results).toMap())
+                } catch (e: Exception) {
+                    e.printStackTrace();
                 }
-                methodChannel!!.invokeMethod(methodName, PluginResponse.success(results).toMap())
             }
 
             override fun onFailure(code: Int, msg: String) {
-                // 失败回调信息
-                methodChannel!!.invokeMethod(methodName, PluginResponse(code.toString(), msg, null).toMap())
+                try {
+                    // 失败回调信息
+                    methodChannel!!.invokeMethod(methodName, PluginResponse(code.toString(), msg, null).toMap())
+                } catch (e: Exception) {
+                    e.printStackTrace();
+                }
             }
         })
     }

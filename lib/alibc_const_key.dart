@@ -42,6 +42,7 @@ enum AlibcNativeFailMode {
   AlibcNativeFailModeJumpDownloadPage,
   AlibcNativeFailModeNone
 }
+
 // 天猫
 // 淘宝
 enum AlibcSchemeType { AlibcSchemeTmall, AlibcSchemeTaoBao }
@@ -53,7 +54,8 @@ enum CallBackType {
   AlibcOpenURL,
   AlibcOpenCar,
   AlibcOpenDetail,
-  AlibcOpenShop
+  AlibcOpenShop,
+  AlibcOpenOrder,
 }
 
 T? enumFromString<T>(Iterable<T> values, String value) {

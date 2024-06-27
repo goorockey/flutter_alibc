@@ -6,6 +6,7 @@ class PluginConstants {
         var key_ClientType = "schemeType"
         var key_BackUrl = "backUrl"
         var key_NativeFailMode = "nativeFailMode"
+        var key_DegradeUrl = "degradeUrl"
 
         var Tmall_ClientType = "0"
         var TaoBao_ClientType = "1"

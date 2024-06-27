@@ -35,13 +35,33 @@ class PluginUtil {
         }
 
         fun getTaokeParams(taokePar: Map<String?, Any?>): AlibcTaokeParams? {
-            val pid = taokePar["pid"] as String?
             val taokeParams = AlibcTaokeParams("", "", "")
+
+            val pid = taokePar["pid"] as String?
             if (pid != null) {
                 taokeParams.setPid(pid)
             }
-            val extParams = taokePar["extParams"]
-            //TODO 其他参数待添加
+
+            val adzoneId = taokePar["adzoneId"] as String?
+            if (adzoneId != null) {
+                taokeParams.setAdzoneid(adzoneId)
+            }
+
+            val unionId = taokePar["unionId"] as String?
+            if (unionId != null) {
+                taokeParams.setUnionId(unionId)
+            }
+
+            val subPid = taokePar["subPid"] as String?
+            if (subPid != null) {
+                taokeParams.setSubPid(subPid)
+            }
+
+            val extParams = taokePar["extParams"] as HashMap<String, String>?
+            if (extParams != null) {
+                taokeParams.setExtraParams(extParams)
+            }
+
             return taokeParams
         }
     }

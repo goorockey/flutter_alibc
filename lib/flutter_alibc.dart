@@ -5,6 +5,8 @@ import 'package:flutter_alibc/albc_tools.dart';
 import 'package:flutter_alibc/alibc_const_key.dart';
 import 'package:flutter_alibc/alibc_model.dart';
 
+import 'alibc_const_key.dart';
+
 typedef LoginCallback = void Function(LoginModel model);
 typedef OpenCallback = void Function(TradeResult model);
 typedef CommonCallback = void Function(Map<String, dynamic> map);
@@ -22,6 +24,7 @@ class FlutterAlibc {
     CallBackType.AlibcOpenCar: null,
     CallBackType.AlibcOpenDetail: null,
     CallBackType.AlibcOpenShop: null,
+    CallBackType.AlibcOpenOrder: null,
   };
 
   static Future<String?> get platformVersion async {
@@ -63,6 +66,25 @@ class FlutterAlibc {
     _channel.invokeMethod("loginOut");
   }
 
+  static Future<bool> isLogin() async {
+    return await _channel.invokeMethod("isLogin");
+  }
+
+  static Future<UserModel?> getUser() async {
+    final Map? result = await _channel.invokeMethod("getUser");
+    if (result == null) {
+      return null;
+    }
+    return UserModel(
+      result["nick"],
+      result["avatarUrl"],
+      result["openId"],
+      result["openSid"],
+      result["topAccessToken"],
+      result["topAuthCode"],
+    );
+  }
+
   ///
   /// @description: 渠道授权，获取access_token
   /// 「对应官方文档【Client-side flow】方式」 {https://open.taobao.com/doc.htm?docId=118&docType=1}
@@ -78,6 +100,7 @@ class FlutterAlibc {
       AlibcSchemeType schemeType = AlibcSchemeType.AlibcSchemeTaoBao,
       TaokeParams? taokeParams,
       String? backUrl,
+      String? degradeUrl,
       required CommonCallback taokeCallback}) async {
     Map? taoKe = AlibcTools.getTaokeMap(taokeParams);
     _channel.invokeMethod("taoKeLogin", {
@@ -87,6 +110,7 @@ class FlutterAlibc {
       "nativeFailMode": nativeFailMode.index,
       "schemeType": schemeType.index,
       "taokeParams": taoKe,
+      "degradeUrl": degradeUrl,
       "backUrl": backUrl,
     });
     _callBackMaps[CallBackType.AlibcTaokeLogin] = taokeCallback;
@@ -197,6 +221,7 @@ class FlutterAlibc {
     AlibcSchemeType schemeType = AlibcSchemeType.AlibcSchemeTmall,
     TaokeParams? taokeParams,
     String? backUrl,
+    String? degradeUrl,
     OpenCallback? callback,
   }) async {
     Map? taoKe = AlibcTools.getTaokeMap(taokeParams);
@@ -207,6 +232,7 @@ class FlutterAlibc {
       "nativeFailMode": nativeFailMode.index,
       "schemeType": schemeType.index,
       "taokeParams": taoKe,
+      "degradeUrl": degradeUrl,
       "backUrl": backUrl
     });
     _callBackMaps[CallBackType.AlibcOpenURL] = callback;
@@ -232,6 +258,7 @@ class FlutterAlibc {
       TaokeParams? taokeParams,
       // 额外需要追踪的业务数据
       Map? trackParam,
+      String? degradeUrl,
       String? backUrl,
       OpenCallback? callback}) async {
     Map? taoKe = AlibcTools.getTaokeMap(taokeParams);
@@ -243,7 +270,8 @@ class FlutterAlibc {
       "nativeFailMode": nativeFailMode.index,
       "schemeType": schemeType.index,
       "taokeParams": taoKe,
-      "trackParam": trackParam,
+      "trackParam": trackParam ?? {},
+      "degradeUrl": degradeUrl,
       "backUrl": backUrl
     });
     _callBackMaps[CallBackType.AlibcOpenDetail] = callback;
@@ -268,6 +296,7 @@ class FlutterAlibc {
       // 额外需要追踪的业务数据
       Map? trackParam,
       String? backUrl,
+      String? degradeUrl,
       OpenCallback? callback}) async {
     Map? taoKe = AlibcTools.getTaokeMap(taokeParams);
 
@@ -279,7 +308,8 @@ class FlutterAlibc {
       "nativeFailMode": nativeFailMode.index,
       "schemeType": schemeType.index,
       "taokeParams": taoKe,
-      "trackParam": trackParam,
+      "trackParam": trackParam ?? {},
+      "degradeUrl": degradeUrl,
       "backUrl": backUrl
     });
     _callBackMaps[CallBackType.AlibcOpenShop] = callback;
@@ -303,6 +333,7 @@ class FlutterAlibc {
       // 额外需要追踪的业务数据
       Map? trackParam,
       String? backUrl,
+      String? degradeUrl,
       OpenCallback? callback}) async {
     Map? taoKe = AlibcTools.getTaokeMap(taokeParams);
 
@@ -313,7 +344,8 @@ class FlutterAlibc {
       "nativeFailMode": nativeFailMode.index,
       "schemeType": schemeType.index,
       "taokeParams": taoKe,
-      "trackParam": trackParam,
+      "trackParam": trackParam ?? {},
+      "degradeUrl": degradeUrl,
       "backUrl": backUrl
     });
     _callBackMaps[CallBackType.AlibcOpenCar] = callback;

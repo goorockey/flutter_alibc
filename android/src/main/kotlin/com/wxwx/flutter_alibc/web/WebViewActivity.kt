@@ -56,6 +56,7 @@ class WebViewActivity : Activity() {
         val showParams = AlibcShowParams()
         var taokeParams: AlibcTaokeParams? = AlibcTaokeParams("", "", "")
         showParams.backUrl = argument[Constants.key_BackUrl].toString()
+        showParams.degradeUrl = argument[Constants.key_DegradeUrl].toString()
         if (argument[Constants.key_OpenType] != null) {
             showParams.openType = PluginUtil.getOpenType(argument[Constants.key_OpenType].toString())
         }
